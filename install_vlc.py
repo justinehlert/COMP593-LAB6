@@ -1,3 +1,10 @@
+import requests as req
+import hashlib as hash
+import os
+import subprocess
+import re
+
+
 def main():
 
     # Get the expected SHA-256 hash value of the VLC installer
@@ -27,9 +34,16 @@ def get_expected_sha256():
         str: Expected SHA-256 hash value of VLC installer
     """
     # TODO: Step 1
+    fileUrl = 'https://download.videolan.org/pub/videolan/vlc/3.0.17.4/win64/vlc-3.0.17.4-win64.exe.sha256'
     # Hint: See example code in lab instructions entitled "Extracting Text from a Response Message Body"
-    # Hint: Use str class methods, str slicing, and/or regex to extract the expected SHA-256 value from the text 
-    return 
+    respMsg = req.get(fileUrl)
+    if respMsg.status_code == req.codes.ok:
+        fileContent = respMsg.content
+        # Hint: Use str class methods, str slicing, and/or regex to extract the expected SHA-256 value from the text 
+        pattern = r'\b([a-fA-F0-9]{64})\b'
+        match = re.search(pattern, str(fileContent))
+        shaHash = match.group(1)
+    return shaHash
 
 def download_installer():
     """Downloads, but does not save, the .exe VLC installer file for 64-bit Windows.
