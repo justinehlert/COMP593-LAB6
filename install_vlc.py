@@ -101,17 +101,21 @@ def run_installer(installer_path):
         installer_path (str): Full path of the VLC installer file
     """    
     # TODO: Step 5
+    subprocess.run([installer_path, '/L=1033', '/S'], shell=True)
     # Hint: See example code in lab instructions entitled "Running the VLC Installer"
     return
     
 def delete_installer(installer_path):
-    # TODO: Step 6
+    #Step 6
     # Hint: See example code in lab instructions entitled "Running the VLC Installer"
     """Deletes the VLC installer file.
 
     Args:
         installer_path (str): Full path of the VLC installer file
     """
+    #If the file exists, delete it
+    if os.path.exists(installer_path):
+        os.remove(installer_path)
     return
 
 def checkResponseCode(respMsg):
